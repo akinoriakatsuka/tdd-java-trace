@@ -11,3 +11,5 @@
 - [ ] DollarとFrancの重複
 - [ ] equals()の一般化
 - [ ] times()の一般化
+- [ ] DollarとFrancを比較する
+- [ ] 通貨の概念
