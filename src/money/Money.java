@@ -11,7 +11,7 @@ class Money {
 
     Money times(int multiplier){
         return new Money(amount * multiplier, currency);
-    };
+    }
 
     String currency() {
         return currency;
