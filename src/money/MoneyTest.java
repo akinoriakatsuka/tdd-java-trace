@@ -14,9 +14,9 @@ public class MoneyTest {
 
     @Test
     public void testEquality() {
-        assertTrue(Money.dollar(5).equals(Money.dollar(5)));
-        assertFalse(Money.dollar(5).equals(Money.dollar(6)));
-        assertFalse(Money.dollar(5).equals(Money.franc(5)));
+        assertEquals(Money.dollar(5), Money.dollar(5));
+        assertNotEquals(Money.dollar(5), Money.dollar(6));
+        assertNotEquals(Money.dollar(5), Money.franc(5));
     }
 
     @Test
@@ -26,5 +26,21 @@ public class MoneyTest {
         Bank bank = new Bank();
         Money reduced = bank.reduce(sum,"USD");
         assertEquals(Money.dollar(10), reduced);
+    }
+
+    @Test
+    public void testPlusReturnsSum() {
+        Money five = Money.dollar(5);
+        Expression result = five.plus(five);
+        Sum sum = (Sum) result;
+        assertEquals(five, sum.augend);
+        assertEquals(five, sum.addend);
+    }
+    @Test
+    public void testReduceSum() {
+        Expression sum = new Sum(Money.dollar(3),Money.dollar(4));
+        Bank bank = new Bank();
+        Money result = bank.reduce(sum, "USD");
+        assertEquals(Money.dollar(7),result);
     }
 }
