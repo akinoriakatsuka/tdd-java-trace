@@ -24,7 +24,7 @@ public class MoneyTest {
         Money five = Money.dollar(5);
         Expression sum = five.plus(five);
         Bank bank = new Bank();
-        Money reduced = bank.reduce(sum,"USD");
+        Money reduced = bank.reduce(sum, "USD");
         assertEquals(Money.dollar(10), reduced);
     }
 
@@ -36,11 +36,34 @@ public class MoneyTest {
         assertEquals(five, sum.augend);
         assertEquals(five, sum.addend);
     }
+
     @Test
     public void testReduceSum() {
-        Expression sum = new Sum(Money.dollar(3),Money.dollar(4));
+        Expression sum = new Sum(Money.dollar(3), Money.dollar(4));
         Bank bank = new Bank();
         Money result = bank.reduce(sum, "USD");
-        assertEquals(Money.dollar(7),result);
+        assertEquals(Money.dollar(7), result);
+    }
+
+    @Test
+    public void testReduceMoneyDifferentCurrency() {
+        Bank bank = new Bank();
+        bank.addRate("CHF", "USD", 2);
+        Money result = bank.reduce(Money.franc(2), "USD");
+        assertEquals(Money.dollar(1), result);
+    }
+
+    @Test
+    public void testGetRate() {
+        Bank bank = new Bank();
+        bank.addRate("CHF", "USD", 2);
+        assertEquals(2, bank.rate("CHF", "USD"));
+        assertEquals(1, bank.rate("USD", "USD"));
+    }
+
+    @Test
+    public void testPairEquality() {
+        assertEquals(new Pair("USD", "CHF"), new Pair("USD", "CHF"));
+        assertNotEquals(new Pair("USD", "CHF"), new Pair("USD", "USD"));
     }
 }
